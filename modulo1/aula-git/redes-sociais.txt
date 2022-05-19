@@ -1,0 +1,2 @@
+linkedin: https://www.linkedin.com/in/leonardosantino/
+github: https://github.com/leonardosantino
