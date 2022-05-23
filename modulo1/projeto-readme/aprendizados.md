@@ -1,0 +1,3 @@
+# Aprendizados da semana
+
+Nessa semana de onboarding da **Labenu**, aprendi sobre **terminais** de computadores, bem como seus comandos, criar arquivos e diretórios, buscas e navegação entre pastas. Aprendemos ainda **Git** e **GitHub**, criando o primeiro repositório, clonando, adicionando e commitando arquivos, criando uma nova branch, subindo o repo local para o remoto com push entre outras coisas.
