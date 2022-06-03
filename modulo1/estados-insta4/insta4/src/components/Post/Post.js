@@ -130,7 +130,6 @@ function Post(props) {
       </PostHeader>
       <PostPhoto src={props.fotoPost} alt={'Imagem do post'} />
       <PostFooter>
-
         <IconeComContador
           icone={iconeCurtida}
           onClickIcone={onClickCurtida}
@@ -142,7 +141,6 @@ function Post(props) {
           onClickIcone={onClickSave}
         />
         <Share />
-        
         <IconeComContador
           icone={iconeComentario}
           onClickIcone={onClickComentario}

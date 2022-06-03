@@ -23,6 +23,7 @@ export function Share() {
                     <li onClick={handleClickSelect}><a className="dropdown-item" href="#2">Facebook</a></li>
                     <li onClick={handleClickSelect}><a className="dropdown-item" href="#3">Twiter</a></li>
                     <input onChange={handleClick} type="text" placeholder='Digite sua mensagem'/>
+
                 </ul>
             </div>
         </>
