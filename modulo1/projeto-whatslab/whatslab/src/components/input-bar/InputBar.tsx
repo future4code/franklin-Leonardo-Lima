@@ -6,11 +6,16 @@ export function InputBar(props: { state: string[], setState: Function }) {
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        
+        const scrollMessage = document.getElementById("message-scroll") as HTMLDivElement;
         const inputMessage = (event.currentTarget.elements.namedItem('message') as HTMLInputElement).value.trim()
+
         if (inputMessage)
             props.setState([...props.state, inputMessage]);
 
+        setTimeout(() => {
+            scrollMessage.scrollTo(0, scrollMessage.scrollHeight);
+        }, 100);
+        
         event.currentTarget.reset();
     }
 

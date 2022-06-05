@@ -12,18 +12,15 @@ export function WhatsLab() {
     );
 
     return (
-
         <Container>
             <TopBar />
-            <Messages id='scroll'>
+            <Messages id='message-scroll'>
                 {state.map((message, index) => {
                     if (index % 2)
                         return <MessageYou message={message} key={"you" + index} />;
                     return <MessageOther message={message} key={"other" + index} />
                 })}
-
             </Messages>
-
             <InputBar state={state} setState={setState} />
         </Container>
     );
@@ -39,8 +36,7 @@ const Container = styled.div`
 const Messages = styled.div`
     height: 75%;
     overflow: auto;
-    scroll-behavior: auto;
-
+    scroll-behavior: smooth;
 
     &::-webkit-scrollbar {
         width: 11px;
