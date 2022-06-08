@@ -1,7 +1,7 @@
 import React, {FormEvent} from "react";
 import styled from "styled-components";
 
-export function Step1(props: {state: string, setState: Function}) {
+export function Step1(props: {setState: Function}) {
 
     function handleChange(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -10,7 +10,6 @@ export function Step1(props: {state: string, setState: Function}) {
 
         props.setState(selected)
 
-        // console.log(selected)
     }
 
     return (
@@ -33,10 +32,10 @@ export function Step1(props: {state: string, setState: Function}) {
                 </div>
 
                 <select className="form-select mb-3" name="input-select">
-                    <option >Qual sua escolaridade?</option>
+                    <option value="">Qual sua escolaridade?</option>
                     <option value="1">Ensino médio incompleto</option>
                     <option value="2">Ensino médio completo</option>
-                    <option value="3">Ensino superior completo</option>
+                    <option value="3">Ensino superior incompleto</option>
                     <option value="4">Ensino superior completo</option>
                 </select>
 

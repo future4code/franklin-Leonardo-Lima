@@ -6,8 +6,7 @@ export function Step3() {
     return (
         <Container>
             <H1>ETAPA 3 - INFORMAÇÕES GERAIS DE ENSINO</H1>
-            <Form>
-
+            <Form >
                 <div className="mb-3">
                     <label htmlFor="input-not-finish" className="form-label">Por que você não terminou um curso de graduação?</label>
                     <input type="text" className="form-control" id="input-not-finish" />
@@ -16,10 +15,7 @@ export function Step3() {
                     <label htmlFor="input-complementar-curse" className="form-label">Você fez algum curso complementar?</label>
                     <input type="text" className="form-control" id="input-complementar-curse" />
                 </div>
-
-                <button type="submit" className="btn btn-primary">Submit</button>
             </Form>
-
         </Container>
     )
 }
