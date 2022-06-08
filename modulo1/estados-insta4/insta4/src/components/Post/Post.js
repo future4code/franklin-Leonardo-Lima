@@ -123,10 +123,11 @@ function Post(props) {
     <PostContainer>
 
       <PostHeader>
+
         <UserPhoto src={props.fotoUsuario} alt={'Imagem do usuario'} />
         <p>{props.nomeUsuario}</p>
-      </PostHeader>
 
+      </PostHeader>
       <PostPhoto src={props.fotoPost} alt={'Imagem do post'} />
 
       <PostFooter>
