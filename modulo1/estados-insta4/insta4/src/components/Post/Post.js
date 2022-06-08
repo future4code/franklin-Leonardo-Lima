@@ -129,6 +129,7 @@ function Post(props) {
 
       </PostHeader>
       <PostPhoto src={props.fotoPost} alt={'Imagem do post'} />
+
       <PostFooter>
         <IconeComContador
           icone={iconeCurtida}
