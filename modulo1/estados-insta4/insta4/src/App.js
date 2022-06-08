@@ -1,38 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
+import { PostForm } from './components/forms/PostForm';
 import Post from './components/Post/Post';
 
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  gap: 1rem;
+  /* flex-direction: column; */
   align-items: center;
 `
 function App() {
-  return (
-    <MainContainer>
-      <Post
-        nomeUsuario={'Paulinha'}
-        fotoUsuario={'https://picsum.photos/id/1005/200/150'}
-        fotoPost={'https://picsum.photos/id/1005/200/150'}
-      />
 
-      <Post
-        nomeUsuario={'Leonardo'}
-        fotoUsuario={'https://picsum.photos/id/1001/200/150'}
-        fotoPost={'https://picsum.photos/id/1001/200/150'}
-      />
-
-      <Post
-        nomeUsuario={'Naiara'}
-        fotoUsuario={'https://picsum.photos/id/1011/200/150'}
-        fotoPost={'https://picsum.photos/id/1011/200/150'}
-      />
-
-    </MainContainer>
+  const [usersPost, setUserPost] = useState(
+    [{
+      name: 'Joana',
+      photo: 'https://picsum.photos/id/1027/200/150',
+      post: 'https://picsum.photos/id/1027/200/150'
+    },
+    {
+      name: 'Marcelo',
+      photo: 'https://picsum.photos/id/661/200/150',
+      post: 'https://picsum.photos/id/661/200/150'
+    },
+    {
+      name: 'Renata',
+      photo: 'https://picsum.photos/id/550/200/150',
+      post: 'https://picsum.photos/id/550/200/150'
+    }]
   )
 
-}
+  return (
 
+    <>
+      <PostForm state={usersPost} setState={setUserPost}/>
+      <MainContainer>
+        {usersPost.map((user, index) => {
+          return <Post key={index}
+            nomeUsuario={user.name}
+            fotoUsuario={user.photo}
+            fotoPost={user.post}
+          />
+        })}
+      </MainContainer>
+    </>
+  )
+}
 
 export default App;
