@@ -18,7 +18,7 @@ function Header() {
     <Navbar variant='dark' bg='dark' expand={'md'} className='mb-3'>
       <Container fluid>
         <Link to='/' style={{ textDecoration: 'none' }}>
-          <Navbar.Brand>LaberX</Navbar.Brand>
+          <Navbar.Brand>LabeX</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${'md'}`} />
         <Navbar.Offcanvas
