@@ -8,6 +8,15 @@ export const LoginContainer = styled.div`
   margin-top: 200px;
 `
 
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ErrorText = styled.span`
+  color: red;
+  margin-bottom: 10px;
+`
 export const LoginTitle = styled.h1`
   font-size: 30px;
   color: black;

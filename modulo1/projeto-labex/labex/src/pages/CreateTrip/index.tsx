@@ -1,11 +1,11 @@
+import { useEffect } from 'react'
 import Header from '../../components/Header'
 import { LoginInput } from '../Login/styles'
 import { DarkButton } from './../../components/OptionHome/styles'
-
-import { useState } from 'react'
-
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { FormContainer, PlanetSelector } from './styles'
 
 import api from './../../services/client'
 
@@ -18,24 +18,34 @@ interface ITrip {
 }
 
 export default function CreateTrip() {
-  const [trip, setTrip] = useState<ITrip>({
-    name: '',
-    description: '',
-    date: '',
-    planet: '',
-    durationInDays: 0,
-  })
+  const { register, handleSubmit, watch } = useForm<ITrip>()
 
-  const tryToCreate = () => {
+  const token = localStorage.getItem('token')
+  useEffect(() => {
+    if (token === null) {
+      toast.error(`Você precisa estar logado para visualizar essa página!`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+        toastId: 'ErrorLogin',
+      })
+    }
+  }, [token])
+
+  const onSubmit: SubmitHandler<ITrip> = () => {
     api
       .post(
         '/trips',
         {
-          name: trip.name,
-          description: trip.description,
-          date: trip.date,
-          planet: trip.planet,
-          durationInDays: trip.durationInDays,
+          name: watch('name'),
+          description: watch('description'),
+          date: watch('date'),
+          planet: watch('planet'),
+          durationInDays: watch('durationInDays'),
         },
         {
           headers: {
@@ -53,13 +63,7 @@ export default function CreateTrip() {
           draggable: true,
           progress: undefined,
           pauseOnHover: false,
-        })
-        setTrip({
-          name: '',
-          description: '',
-          date: '',
-          planet: '',
-          durationInDays: 0,
+          toastId: 'SuccessLogin',
         })
         // go to trips
         window.location.href = '/admin'
@@ -73,76 +77,78 @@ export default function CreateTrip() {
           draggable: true,
           progress: undefined,
           pauseOnHover: false,
+          toastId: 'ErrorLogin',
         })
       })
   }
+
+  const CurrentDateWithoutHours = new Date().toISOString().split('T')[0]
+
+  const PlanetList = [
+    'Mercurio',
+    'Venus',
+    'Terra',
+    'Marte',
+    'Jupiter',
+    'Saturno',
+    'Urano',
+    'Netuno',
+  ]
 
   return (
     <>
       <Header />
       <ToastContainer />
+      {token !== null && (
+        <div>
+          <FormContainer onSubmit={handleSubmit(onSubmit)}>
+            <h2>Criar Viagem</h2>
+            <LoginInput
+              {...register('name', { required: true, minLength: 5 })}
+              maxLength={40}
+              placeholder='Nome'
+            />
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: '10%',
-        }}
-      >
-        <label>Nome da Viagem</label>
-        <LoginInput
-          value={trip.name}
-          onChange={(e) => {
-            setTrip({ ...trip, name: e.target.value })
-          }}
-          maxLength={40}
-          placeholder='Expedição ao centro de Saturno'
-        />
-        <label>Planeta</label>
-        <LoginInput
-          value={trip.planet}
-          onChange={(e) => {
-            setTrip({ ...trip, planet: e.target.value })
-          }}
-          maxLength={10}
-          placeholder='Saturno'
-        />
-        <label>Data</label>
-        <LoginInput
-          value={trip.date}
-          maxLength={10}
-          onChange={(e) => {
-            setTrip({ ...trip, date: e.target.value })
-          }}
-          placeholder='25/05/2020'
-        />
-        <label>Descrição</label>
-        <LoginInput
-          value={trip.description}
-          onChange={(e) => {
-            setTrip({ ...trip, description: e.target.value })
-          }}
-          placeholder='Uma viagem muito legal...'
-        />
-        <label>Duração em dias</label>
-        <LoginInput
-          value={trip.durationInDays}
-          maxLength={6}
-          onChange={(e) => {
-            const result = e.target.value.replace(/\D/g, '')
-            setTrip({ ...trip, durationInDays: Number(result) })
-          }}
-          placeholder='Duração em dias'
-        />
-        <DarkButton
-          onClick={tryToCreate}
-          style={{ width: 'auto', padding: '20px' }}
-        >
-          Criar Expedição!
-        </DarkButton>
-      </div>
+            <PlanetSelector {...register('planet', { required: true })}>
+              {PlanetList.map((planet) => (
+                <option key={planet.toLowerCase()} value={planet.toLowerCase()}>
+                  {planet}
+                </option>
+              ))}
+            </PlanetSelector>
+
+            <LoginInput
+              {...register('date', { required: true, minLength: 5 })}
+              placeholder='Data'
+              type={'date'}
+              min={CurrentDateWithoutHours}
+            />
+            <LoginInput
+              {...register('description', { required: true, minLength: 30 })}
+              placeholder='Descrição'
+            />
+            <LoginInput
+              {...register('durationInDays', {
+                required: true,
+              })}
+              type={'number'}
+              min={50}
+              placeholder='Duração em dias (Mínimo 50 dias)'
+            />
+            <DarkButton
+              type='submit'
+              style={{
+                width: 'auto',
+                padding: '10px',
+                paddingLeft: '120px',
+                paddingRight: '120px',
+              }}
+            >
+              Criar!
+            </DarkButton>
+          </FormContainer>
+        </div>
+      )}
     </>
   )
 }

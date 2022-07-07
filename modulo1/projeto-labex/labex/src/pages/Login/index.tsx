@@ -1,19 +1,36 @@
 import Header from '../../components/Header'
-import { LoginContainer, LoginInput, LoginTitle } from './styles'
+import {
+  LoginContainer,
+  LoginInput,
+  LoginTitle,
+  FormContainer,
+  ErrorText,
+} from './styles'
 import { HomeButton } from '../../components/OptionHome/styles'
 import { IoMdLogIn } from 'react-icons/io'
-import { useState } from 'react'
 
 import api from '../../services/client'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export default function Login() {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+type Inputs = {
+  email: string
+  password: string
+}
 
-  const tryToLogin = () => {
+export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+  const onSubmit: SubmitHandler<Inputs> = () => {
+    const email = watch('email')
+    const password = watch('password')
     api
       .post('/login', { email, password })
       .then((res) => {
@@ -30,7 +47,6 @@ export default function Login() {
           draggable: true,
           progress: undefined,
         })
-        console.log(err)
       })
   }
 
@@ -41,24 +57,26 @@ export default function Login() {
 
       <LoginContainer>
         <LoginTitle>Administrativo</LoginTitle>
-        <LoginInput
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          placeholder='Email'
-          type={'email'}
-        />
-        <LoginInput
-          onChange={(e) => {
-            setPassword(e.target.value)
-          }}
-          placeholder='Senha'
-          type={'password'}
-        />
-        <HomeButton onClick={tryToLogin} type='submit'>
-          <IoMdLogIn size={30} />
-          Logar
-        </HomeButton>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+          <LoginInput
+            {...register('email', { required: true })}
+            placeholder='Email'
+            type={'email'}
+          />
+          {errors.email && <ErrorText>O campo email é necessário.</ErrorText>}
+          <LoginInput
+            {...register('password', { required: true })}
+            placeholder='Senha'
+            type={'password'}
+          />
+          {errors.password && (
+            <ErrorText>O campo senha é necessário.</ErrorText>
+          )}
+          <HomeButton type='submit'>
+            <IoMdLogIn size={30} />
+            Logar
+          </HomeButton>
+        </FormContainer>
       </LoginContainer>
     </>
   )

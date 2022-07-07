@@ -29,25 +29,19 @@ function Header() {
           <Nav className='justify-content-end flex-grow-1 pe-3'>
             {isLogged ? (
               <>
-                <Nav.Link>
-                  <Link
-                    to='/trips'
-                    style={{ textDecoration: 'none', color: 'white' }}
-                  >
+                <Nav.Link as={Link} to="/trips">
+
                     Público
-                  </Link>
+
                 </Nav.Link>
-                <Nav.Link>
-                  <Link
-                    to='/admin'
-                    style={{ textDecoration: 'none', color: 'white' }}
-                  >
+                <Nav.Link as={Link} to="/admin">
+
                     Admin
-                  </Link>
+              
                 </Nav.Link>
 
                 <Nav.Link
-                  style={{ textDecoration: 'none', color: 'white' }}
+                  style={{ textDecoration: 'none' }}
                   onClick={() => {
                     localStorage.removeItem('token')
                     localStorage.removeItem('email')

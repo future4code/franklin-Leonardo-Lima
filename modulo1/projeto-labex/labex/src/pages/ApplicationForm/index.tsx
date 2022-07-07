@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import api from './../../services/client'
 import { DarkButton } from './../../components/OptionHome/styles'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { FormContainer } from './styles'
 
 interface ICountry {
   ordem: number
@@ -20,21 +22,27 @@ interface ICountry {
   codigo: string
 }
 
-export default function Apply() {
-  const { id } = useParams()
+interface IApplicationForm {
+  name: string
+  age: number
+  applicationText: string
+  profession: string
+  country: string
+  trip: string
+}
 
-  const [name, setName] = useState<string>('')
-  const [age, setAge] = useState<string>('')
-  const [text, setText] = useState<string>('')
-  const [profession, setProfession] = useState<string>('')
-  const [country, setCountry] = useState<string>('')
+export default function Apply() {
+  const { register, handleSubmit, watch } = useForm<IApplicationForm>()
+
+  const { id } = useParams()
   const [disabled, setDisabled] = useState<boolean>(false)
+  const [selectedCountry, setSelectedCountry] = useState<any>()
 
   const options = Countries.map((country: ICountry) => {
     return { label: country.nome, value: country.sigla2 }
   })
 
-  const applyToTrip = () => {
+  const onSubmit: SubmitHandler<IApplicationForm> = () => {
     toast.info('Cadastrando!', {
       position: 'top-right',
       autoClose: 5000,
@@ -42,18 +50,20 @@ export default function Apply() {
       closeOnClick: true,
       draggable: true,
       progress: undefined,
+      toastId: 'Apply',
     })
+
     const data = JSON.stringify({
-      name: name,
-      age: age,
-      applicationText: text,
-      profession: profession,
-      country: country,
+      name: watch('name'),
+      age: watch('age'),
+      applicationText: watch('applicationText'),
+      profession: watch('profession'),
+      country: selectedCountry,
     })
 
     api
       .post(`/trips/${id}/apply`, data)
-      .then((res) => {
+      .then(() => {
         toast.success('🆗 Cadastrado com sucesso!', {
           position: 'top-right',
           autoClose: 3000,
@@ -61,20 +71,16 @@ export default function Apply() {
           closeOnClick: true,
           draggable: true,
           progress: undefined,
+          toastId: 'Apply',
         })
 
-        setName('')
-        setAge('')
-        setText('')
-        setProfession('')
-        setCountry('')
         setDisabled(true)
 
         setInterval(() => {
           window.location.href = '/trips'
         }, 3000)
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('🚫 Erro ao cadastrar! Revise seus dados.', {
           position: 'top-right',
           autoClose: 3000,
@@ -82,6 +88,7 @@ export default function Apply() {
           closeOnClick: true,
           draggable: true,
           progress: undefined,
+          toastId: 'ErrorApply',
         })
       })
   }
@@ -90,49 +97,73 @@ export default function Apply() {
     <div>
       <Header />
       <ToastContainer />
-      <LoginContainer>
-        <LoginTitle> Cadastro para Viagem </LoginTitle>
-        <LoginInput
-          onChange={(event) => {
-            setName(event?.target.value)
-          }}
-          placeholder='Nome Completo'
-        />
-        <LoginInput
-          onChange={(event) => {
-            setAge(event?.target.value)
-          }}
-          placeholder='Idade'
-        />
-        <LoginInput
-          onChange={(event) => {
-            setText(event?.target.value)
-          }}
-          placeholder='Texto de Candidatura'
-        />
-        <LoginInput
-          onChange={(event) => {
-            setProfession(event?.target.value)
-          }}
-          placeholder='Profissão'
-        />
-        <Select
-          placeholder='País'
-          onChange={(event) => {
-            setCountry(event?.label || '')
-          }}
-          options={options}
-        />
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <LoginContainer>
+          <LoginTitle> Cadastro para Viagem </LoginTitle>
+          <LoginInput
+            type={'text'}
+            {...register('name', { required: true, minLength: 3 })}
+            placeholder='Nome Completo'
+          />
+          <LoginInput
+            type={'number'}
+            {...register('age', { required: true })}
+            placeholder='Idade (min. 18 anos)'
+            min={18}
+          />
+          <LoginInput
+            type={'text'}
+            {...register('applicationText', { required: true, minLength: 30 })}
+            placeholder='Texto de Candidatura (min 30 caracteres)'
+          />
+          <LoginInput
+            type={'text'}
+            {...register('profession', { required: true, minLength: 10 })}
+            placeholder='Profissão'
+          />
+          <Select
+            styles={{
+              control: (base) => ({
+                ...base,
+                backgroundColor: '#fff',
+                borderColor: 'black',
+                borderWidth: 2,
+                borderRadius: 4,
+                borderStyle: 'solid',
+                boxShadow: 'none',
+                width: 300,
+                height: 50,
+                '&:hover': {
+                  background: '#fff',
+                },
+                '@media (max-width: 768px)': {
+                  width: 200,
+                  height: 30,
+                  fontSize: 12,
+                },
+              }),
+              menu: (base) => ({
+                ...base,
+                backgroundColor: '#fff',
+                borderColor: '#fff',
+                borderWidth: 1,
+                borderRadius: 4,
+                borderStyle: 'solid',
+                boxShadow: 'none',
+              }),
+            }}
+            placeholder='País'
+            options={options}
+            onChange={(event) => {
+              setSelectedCountry(event?.label || '')
+            }}
+          />
 
-        <DarkButton
-          disabled={disabled}
-          onClick={() => {
-            applyToTrip()
-          }}
-        >
-          Cadastrar
-        </DarkButton>
-      </LoginContainer>
+          <DarkButton disabled={disabled} type={'submit'}>
+            {disabled ? 'Cadastrar' : 'Preencha os Campos'}
+          </DarkButton>
+        </LoginContainer>
+      </FormContainer>
     </div>
   )
 }
