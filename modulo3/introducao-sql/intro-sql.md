@@ -1,7 +1,7 @@
 ## Exercício 1
 
 - a)
-```
+```sql
 USE `franklin-leonardo-lima`; # Seleciona o schema
 
 CREATE TABLE IF NOT EXISTS Actor ( # cria a tabela de nome actor
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Actor ( # cria a tabela de nome actor
 ```
 
 - b)
-```
+```sql
 DESCRIBE `Actor`; # Mostra a estrutura da tabela Actor
 
 SHOW TABLES; # Mostra todas as tabelas existes no schema
@@ -23,13 +23,13 @@ SHOW DATABASES; # Mostra os schemas existentes
 ```
 
 - c)
-```
+```sql
 DESCRIBE `Actor`; # Mostra a estrutura da tabela Actor
 ```
 
 ## Exercício 2
 
-```
+```sql
 INSERT INTO Actor (id, name, salary, birth_date, gender)
 VALUES(
   "001", 
@@ -41,7 +41,7 @@ VALUES(
 ```
 
 - a)
-```
+```sql
 INSERT INTO Actor (id, name, salary, birth_date, gender)
 VALUES(
   "002", 
@@ -53,7 +53,7 @@ VALUES(
 ```
 
 - b)
-```
+```sql
 INSERT INTO Actor (id, name, salary, birth_date, gender) # Entrada duplicada para a chave primária 002
 VALUES(
   "002", 
@@ -65,7 +65,7 @@ VALUES(
 ```
 
 - c)
-```
+```sql
 INSERT INTO Actor (id, name, salary) # Os valores passados não correspondem ao numero de colunas
 VALUES(
   "003", 
@@ -86,7 +86,7 @@ VALUES(
 ```
 
 - d)
-```
+```sql
 INSERT INTO Actor (id, salary, birth_date, gender) # coluna name não pode ser nula ou não tem um valor padrão
 VALUES(
   "004",
@@ -106,7 +106,7 @@ VALUES(
 ```
 
 - e)
-```
+```sql
 INSERT INTO Actor (id, name, salary, birth_date, gender)
 VALUES(
   "005", 
@@ -127,7 +127,7 @@ VALUES(
 ```
 
 - f)
-```
+```sql
 INSERT INTO Actor (id, name, salary, birth_date, gender)
 VALUES(
   "006", 
@@ -150,22 +150,22 @@ VALUES(
 ## Exercício 3
 
 - a)
-```
+```sql
 SELECT * from Actor WHERE gender = "female";
 ```
 
 - b)
-```
+```sql
 SELECT salary  from Actor WHERE name = 'Tony Ramos';
 ```
 
 - c)
-```
+```sql
 SELECT *  from Actor WHERE gender  = 'invalid';
 ```
 
 - d)
-```
+```sql
 SELECT
 	id,
 	name,
@@ -177,7 +177,7 @@ WHERE
 ```
 
 - e)
-```
+```sql
 SELECT id, nome from Actor WHERE id = "002"; # coluna nome não existe
 
 SELECT id, name from Actor WHERE id = "002";
@@ -194,27 +194,27 @@ WHERE
 ## Exercício 4
 
 - a)
-```
+```sql
 SELECT * FROM Actor
 WHERE (name LIKE "A%" OR name LIKE "J%") # Seleciona onde name começa com A ou J
 AND salary > 300000; # E salary maior do que 300000
 ```
 
 - b)
-```
+```sql
 SELECT * FROM Actor
 WHERE (name NOT LIKE "A%" AND name NOT LIKE "J%")
 AND salary > 350000;
 ```
 
 - c)
-```
+```sql
 SELECT * FROM Actor
 WHERE (name LIKE "%G%" OR name LIKE "%g%");
 ```
 
 - d)
-```
+```sql
 SELECT * FROM Actor
 WHERE (name LIKE "%G%" OR name LIKE "%g%") OR (name LIKE "%A%" OR name LIKE "%a%") AND salary BETWEEN  350000 AND 900000;
 ```
@@ -222,7 +222,7 @@ WHERE (name LIKE "%G%" OR name LIKE "%g%") OR (name LIKE "%A%" OR name LIKE "%a%
 ## Exercício 5
 
 - a)
-```
+```sql
 CREATE TABLE IF NOT EXISTS Movie (
 	id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255) NOT NULL UNIQUE,
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS Movie (
 ```
 
 - b)
-```
+```sql
 INSERT INTO Movie (id, title, synopsis, release_date, rating) 
 VALUES(
 	"001",
@@ -245,7 +245,7 @@ VALUES(
 ```
 
 - c)
-```
+```sql
 INSERT INTO Movie (id, title, synopsis, release_date, rating) 
 VALUES(
 	"002",
@@ -256,7 +256,7 @@ VALUES(
 )
 ```
 - d)
-```
+```sql
 INSERT INTO Movie (id, title, synopsis, release_date, rating) 
 VALUES(
 	"003",
@@ -267,7 +267,7 @@ VALUES(
 );
 ```
 - e)
-```
+```sql
 INSERT INTO Movie (id, title, synopsis, release_date, rating) 
 VALUES(
 	"004",
@@ -281,38 +281,38 @@ VALUES(
 ## Exercício 6
 
 - a)
-```
+```sql
 SELECT id, title, rating FROM Movie WHERE id = "001";
 ```
 
 - b)
-```
+```sql
 SELECT * FROM Movie WHERE title = "Doce de mãe";
 ```
 
 - c)
-```
+```sql
 SELECT id, title, synopsis FROM Movie WHERE rating > 9;
 ```
 
 ## Exercício 7
 
 - a)
-```
+```sql
 SELECT * FROM Movie WHERE title LIKE  "%vida%";
 ```
 
 - b)
-```
+```sql
 SELECT * FROM Movie WHERE title LIKE  "%doce%" OR synopsis  LIKE  "%doce%";
 ```
 - c)
-```
+```sql
 SELECT * FROM Movie
 WHERE release_date < "2020-05-04";
 ```
 - d)
-```
+```sql
 SELECT * FROM Movie
 WHERE release_date < "2020-05-04" AND 
       (title LIKE "%doce%" OR
