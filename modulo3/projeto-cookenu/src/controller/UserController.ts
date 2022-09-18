@@ -18,9 +18,23 @@ export default class UserController {
   };
 
   login = async (request: Request, response: Response) => {
-    // const token = request.headers.authorization as string;
     const body: UserLogin = request.body;
     const { code, result } = await this.service.login(body);
+
+    return response.status(code).json(result);
+  };
+
+  getById = async (request: Request, response: Response) => {
+    const token = request.headers.authorization as string;
+    const id = request.params.id
+    const { code, result } = await this.service.getById(id, token);
+
+    return response.status(code).json(result);
+  };
+
+  profile = async (request: Request, response: Response) => {
+    const token = request.headers.authorization as string;
+    const { code, result } = await this.service.profile(token);
 
     return response.status(code).json(result);
   };

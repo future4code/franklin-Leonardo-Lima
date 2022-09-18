@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 export function jwtSign(payload: object) {
   return jwt.sign(payload, process.env.SECRET_KEY as string, {
-    expiresIn: 60,
+    expiresIn: 180,
   });
 }
 
