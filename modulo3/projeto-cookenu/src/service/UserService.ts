@@ -1,13 +1,16 @@
 import { knex } from '../config/connection';
 import { v4 as uuid } from 'uuid';
 import { jwtSign, jwtVerify } from '../utils/jwtUtil';
+import { bcryptCompare, bcryptHash } from '../utils/bcryptUtil';
 import User from '../model/User';
 import UserSignup from '../types/UserSignup';
 import UserLogin from '../types/UserLogin';
 
-export default class StudentService {
+
+export default class UserService {
   async signup(user: UserSignup) {
     const id = uuid();
+    user.password = await bcryptHash(user.password);
     return await knex('Users')
       .insert({
         id: id,
@@ -27,9 +30,13 @@ export default class StudentService {
   async login(user: UserLogin) {
     return await knex('Users')
       .where('email', user.email)
-      .then((result: Array<User>) => {
+      .then(async (result: Array<User>) => {
         const [userResult] = result;
-        if (userResult.password != user.password) throw new Error();
+        const isValidPassword = await bcryptCompare(
+          user.password,
+          userResult.password
+        );
+        if (!isValidPassword) throw new Error();
         return {
           code: 200,
           result: jwtSign({

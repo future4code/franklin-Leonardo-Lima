@@ -11,6 +11,7 @@
   "author": "Leonardo Santino",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
@@ -19,6 +20,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/uuid": "^8.3.4",
