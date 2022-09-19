@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS `Recipes` (
     id VARCHAR(64) PRIMARY KEY,
     title VARCHAR(64) NOT NULL, 
     `description` VARCHAR(256) NOT NULL,
-    created Date NOT NULL,
+    createdAt Date NOT NULL,
 );
