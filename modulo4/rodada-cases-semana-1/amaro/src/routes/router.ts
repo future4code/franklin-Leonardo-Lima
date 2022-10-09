@@ -12,5 +12,6 @@ router.get('/product', userController.findAll);
 
 const tagController = new TagController();
 router.post('/tag', tagController.save);
+router.get('/tag', tagController.findAll);
 
 export default router;

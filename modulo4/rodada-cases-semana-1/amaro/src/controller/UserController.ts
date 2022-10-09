@@ -19,7 +19,6 @@ export default class UserController {
   findById = async (request: Request, response: Response) => {
     const id = request.params.id;
     const { code, result } = await this.service.findById(id);
-    console.log('id');
 
     return response.status(code).json(result);
   };
@@ -27,7 +26,7 @@ export default class UserController {
   findByName = async (request: Request, response: Response) => {
     const name = request.query.name as string;
     const { code, result } = await this.service.findByName(name);
-    console.log('name');
+
     return response.status(code).json(result);
   };
 

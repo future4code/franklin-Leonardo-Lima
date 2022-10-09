@@ -1,66 +1,66 @@
-import { knex } from '../config/connection';
-import { v4 as uuid } from 'uuid';
 import { jwtSign, jwtVerify } from '../utils/jwtUtil';
 import { bcryptCompare, bcryptHash } from '../utils/bcryptUtil';
 import Product from '../model/Product';
+import DB from '../config/connection';
+import { Repository } from 'typeorm';
 
 export default class UserService {
+  private repository: Repository<Product> = DB.getRepository(Product);
+
   async save(product: Product) {
-    product.id = uuid();
-    return await knex('Products')
-      .insert(product)
+    return await this.repository
+      .save(product)
       .then(() => {
         return {
           code: 201,
           result: product,
         };
       })
-      .catch((error) => {
-        return { code: 400, result: error?.sqlMessage };
+      .catch((error: any) => {
+        return { code: 400, result: error?.sqlMessage + error.message };
       });
   }
 
   async findById(id: string) {
-    return await knex('Products')
-      .where('id', id)
-      .then((result: Array<Product>) => {
-        const [product] = result;
+    return await this.repository
+      .findOne({where: { id: id }, relations: {tags: true}})
+      .then((product) => {
         if (!product) throw new Error('Produto não existe');
         return {
           code: 201,
           result: product,
         };
       })
-      .catch((error) => {
+      .catch((error: any) => {
         return { code: 400, result: error?.sqlMessage };
       });
   }
 
   async findByName(name: string) {
-    return await knex('Products')
-      .where('name', name)
-      .then((result: Array<Product>) => {
-        const [product] = result;
+    return await this.repository
+      .findOneBy({ name: name })
+      .then((product) => {
         if (!product) throw new Error('Produto não existe');
         return {
           code: 201,
           result: product,
         };
       })
-      .catch((error) => {
+      .catch((error: any) => {
         return { code: 400, result: error?.sqlMessage };
       });
   }
 
   async findAll() {
-    return await knex('Products')
-      .then((result: Array<Product>) => {
+    return await this.repository
+      .find()
+      .then((result) => {
         return {
           code: 201,
           result: result,
         };
       })
-      .catch((error) => {
+      .catch((error: any) => {
         return { code: 400, result: error?.sqlMessage };
       });
   }

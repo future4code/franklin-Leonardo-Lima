@@ -15,4 +15,10 @@ export default class TagController {
 
     return response.status(code).json(result);
   };
+
+  findAll = async (request: Request, response: Response) => {
+    const { code, result } = await this.service.findAll();
+
+    return response.status(code).json(result);
+  }
 }
