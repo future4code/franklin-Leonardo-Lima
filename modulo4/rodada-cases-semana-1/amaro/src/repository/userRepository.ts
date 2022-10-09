@@ -1,5 +1,5 @@
-import DB from "../config/connection";
-import Product from "../model/Product";
+import DB from '../config/connection';
+import Product from '../model/Product';
 
 const userRepository = DB.getRepository(Product);
 

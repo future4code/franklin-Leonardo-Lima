@@ -4,7 +4,7 @@ import Tag from '../model/Tag';
 
 const DB = new DataSource({
   type: 'sqlite',
-  database: "./database/amaro.db",
+  database: './database/amaro.db',
   entities: [Product, Tag],
   synchronize: true,
   logging: false,

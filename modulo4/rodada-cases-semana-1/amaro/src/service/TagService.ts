@@ -3,10 +3,10 @@ import Tag from '../model/Tag';
 import tagRepository from '../repository/tagRepository';
 
 export default class TagService {
-  private repository: Repository<Tag>
+  private repository: Repository<Tag>;
 
   constructor() {
-    this.repository  = tagRepository;
+    this.repository = tagRepository;
   }
 
   async save(tag: Tag) {

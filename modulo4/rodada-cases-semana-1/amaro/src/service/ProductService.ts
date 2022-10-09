@@ -1,14 +1,12 @@
-import { jwtSign, jwtVerify } from '../utils/jwtUtil';
-import { bcryptCompare, bcryptHash } from '../utils/bcryptUtil';
 import Product from '../model/Product';
 import userRepository from '../repository/userRepository';
 import { Repository } from 'typeorm';
 
 export default class ProductService {
-  private repository: Repository<Product>
+  private repository: Repository<Product>;
 
   constructor() {
-    this.repository  = userRepository;
+    this.repository = userRepository;
   }
 
   async save(product: Product) {
@@ -27,7 +25,7 @@ export default class ProductService {
 
   async findById(id: string) {
     return await this.repository
-      .findOne({where: { id: id }, relations: {tags: true}})
+      .findOne({ where: { id: id }, relations: { tags: true } })
       .then((product) => {
         if (!product) throw new Error('Produto não existe');
         return {
@@ -42,7 +40,7 @@ export default class ProductService {
 
   async findByName(name: string) {
     return await this.repository
-    .findOne({where: { name: name }, relations: {tags: true}})
+      .findOne({ where: { name: name }, relations: { tags: true } })
       .then((product) => {
         if (!product) throw new Error('Produto não existe');
         return {
@@ -57,7 +55,7 @@ export default class ProductService {
 
   async findAll() {
     return await this.repository
-      .find({relations: {tags: true}})
+      .find({ relations: { tags: true } })
       .then((result) => {
         return {
           code: 201,

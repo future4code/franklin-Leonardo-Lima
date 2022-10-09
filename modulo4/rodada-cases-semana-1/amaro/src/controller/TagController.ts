@@ -20,5 +20,5 @@ export default class TagController {
     const { code, result } = await this.service.findAll();
 
     return response.status(code).json(result);
-  }
+  };
 }

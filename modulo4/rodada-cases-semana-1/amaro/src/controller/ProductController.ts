@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import DB from '../config/connection';
 import Product from '../model/Product';
-import userRepository from '../repository/userRepository';
 import UserService from '../service/ProductService';
 
 export default class ProductController {
