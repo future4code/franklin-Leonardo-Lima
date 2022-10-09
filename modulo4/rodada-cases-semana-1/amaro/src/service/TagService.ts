@@ -1,9 +1,13 @@
 import { Repository } from 'typeorm';
-import DB from '../config/connection';
 import Tag from '../model/Tag';
+import tagRepository from '../repository/tagRepository';
 
 export default class TagService {
-  private repository: Repository<Tag> = DB.getRepository(Tag);
+  private repository: Repository<Tag>
+
+  constructor() {
+    this.repository  = tagRepository;
+  }
 
   async save(tag: Tag) {
     return await this.repository
@@ -15,7 +19,7 @@ export default class TagService {
         };
       })
       .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage };
+        return { code: 400, result: error?.message };
       });
   }
 
@@ -29,7 +33,7 @@ export default class TagService {
         };
       })
       .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage };
+        return { code: 400, result: error?.message };
       });
   }
 }

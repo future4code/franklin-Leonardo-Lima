@@ -8,5 +8,5 @@ export default class Tag {
   @Column()
   name!: string;
   @ManyToOne(() => Product, (product) => product.tags)
-  product!: Product;
+  product?: Product;
 }
