@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.1.2",
     "typeorm": "^0.3.10",
     "uuid": "^9.0.0"
   },

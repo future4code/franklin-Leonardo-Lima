@@ -1,15 +1,10 @@
-import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import Product from '../model/Product';
 import Tag from '../model/Tag';
 
 const DB = new DataSource({
-  type: 'mysql',
-  host: process.env.DB_HOST,
-  port: 3306,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_SCHEMA,
+  type: 'sqlite',
+  database: "./database/amaro.db",
   entities: [Product, Tag],
   synchronize: true,
   logging: false,

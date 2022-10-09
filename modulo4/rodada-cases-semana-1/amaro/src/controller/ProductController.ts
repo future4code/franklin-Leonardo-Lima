@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
+import DB from '../config/connection';
 import Product from '../model/Product';
-import UserService from '../service/UserService';
+import userRepository from '../repository/userRepository';
+import UserService from '../service/ProductService';
 
-export default class UserController {
+export default class ProductController {
   private service: UserService;
 
   constructor() {

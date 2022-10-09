@@ -1,23 +1,27 @@
 import { jwtSign, jwtVerify } from '../utils/jwtUtil';
 import { bcryptCompare, bcryptHash } from '../utils/bcryptUtil';
 import Product from '../model/Product';
-import DB from '../config/connection';
+import userRepository from '../repository/userRepository';
 import { Repository } from 'typeorm';
 
-export default class UserService {
-  private repository: Repository<Product> = DB.getRepository(Product);
+export default class ProductService {
+  private repository: Repository<Product>
+
+  constructor() {
+    this.repository  = userRepository;
+  }
 
   async save(product: Product) {
     return await this.repository
       .save(product)
-      .then(() => {
+      .then((product) => {
         return {
           code: 201,
           result: product,
         };
       })
-      .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage + error.message };
+      .catch((error) => {
+        return { code: 400, result: error.message };
       });
   }
 
@@ -31,14 +35,14 @@ export default class UserService {
           result: product,
         };
       })
-      .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage };
+      .catch((error) => {
+        return { code: 400, result: error?.message };
       });
   }
 
   async findByName(name: string) {
     return await this.repository
-      .findOneBy({ name: name })
+    .findOne({where: { name: name }, relations: {tags: true}})
       .then((product) => {
         if (!product) throw new Error('Produto não existe');
         return {
@@ -46,22 +50,22 @@ export default class UserService {
           result: product,
         };
       })
-      .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage };
+      .catch((error) => {
+        return { code: 400, result: error?.message };
       });
   }
 
   async findAll() {
     return await this.repository
-      .find()
+      .find({relations: {tags: true}})
       .then((result) => {
         return {
           code: 201,
           result: result,
         };
       })
-      .catch((error: any) => {
-        return { code: 400, result: error?.sqlMessage };
+      .catch((error) => {
+        return { code: 400, result: error?.message };
       });
   }
 }
