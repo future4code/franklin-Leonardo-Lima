@@ -1,7 +1,7 @@
 {
-  "name": "projeto-cookenu",
+  "name": "case-amaro",
   "version": "1.0.0",
-  "description": "Cookenu",
+  "description": "Amaro",
   "main": "index.ts",
   "scripts": {
     "test": "jest",
