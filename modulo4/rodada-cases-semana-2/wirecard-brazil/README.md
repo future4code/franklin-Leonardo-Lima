@@ -1,4 +1,4 @@
-## DOG HERO
+## WireCard Brazil
 
 ### Como executar e utilizar Api
 
