@@ -12,6 +12,6 @@
 
 2. Utilize os endpoints
 
-- Postman documentação: https://documenter.getpostman.com/view/17533074/2s83ziN46j
+- Postman documentação: https://documenter.getpostman.com/view/17533074/2s84Dssfmu
 
 Banco de dados SQLite, não é necessário configuração.
